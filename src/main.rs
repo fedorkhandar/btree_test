@@ -2,6 +2,13 @@
 Create a binary tree with n nodes.
 Calc the sum of the values of the nodes at each level.
  */
+
+// TODO: Rc<RefCell> -> <Box>
+// TODO: stack -> recursion
+// TODO: HashMap -> Vec
+// TODO: cargo clippy
+// TODO: tree build
+
 use std::cell::RefCell;
 use std::rc::Rc;
 use std::collections::HashMap;
