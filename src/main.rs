@@ -2,9 +2,15 @@
 Create a binary tree with n nodes.
 Calc the sum of the values of the nodes at each level.
  */
+
+// TODO: Rc<RefCell> change to Box
+// TODO: cargo clippy --> research how to insert into CI
+// TODO: change stack-approach to recursive-approach
+// TODO: tree as linear vector
+
 use std::cell::RefCell;
-use std::rc::Rc;
 use std::collections::HashMap;
+use std::rc::Rc;
 
 //Debug -- for output, PartialEq -- for cmp, Eq -- for caching
 #[derive(Debug, PartialEq, Eq)]
@@ -36,14 +42,13 @@ fn create_tree_dfs(n: i32) -> Option<Rc<RefCell<TreeNode>>> {
                 if x_level < depth {
                     if x.borrow().left.is_none() {
                         let left = Rc::new(RefCell::new(TreeNode::new(k)));
-                        k = k+1;
+                        k = k + 1;
                         x.borrow_mut().left = Some(left.clone());
                         stack.push((x.to_owned(), x_level));
                         stack.push((left.to_owned(), x_level + 1));
-                    }
-                    else if x.borrow().right.is_none() {
+                    } else if x.borrow().right.is_none() {
                         let right = Rc::new(RefCell::new(TreeNode::new(k)));
-                        k = k+1;
+                        k = k + 1;
                         x.borrow_mut().right = Some(right.clone());
                         stack.push((x.to_owned(), x_level));
                         stack.push((right.to_owned(), x_level + 1));
@@ -56,14 +61,14 @@ fn create_tree_dfs(n: i32) -> Option<Rc<RefCell<TreeNode>>> {
             }
         }
     }
-    
+
     Some(root)
 }
 
 fn print_tree(root: Option<Rc<RefCell<TreeNode>>>, indent: i32) {
     if let Some(node) = root {
         for _ in 0..indent {
-            print!("  "); 
+            print!("  ");
         }
         println!("{}", node.borrow().val);
         print_tree(node.borrow().left.clone(), indent + 1);
@@ -80,24 +85,24 @@ fn calc_tree(root: Option<Rc<RefCell<TreeNode>>>) -> Option<HashMap<i32, i32>> {
             match stack.pop() {
                 Some((x, x_level)) => {
                     let value = d.entry(x_level).or_insert(0);
-                    *value += x.borrow().val;                 
+                    *value += x.borrow().val;
                     if !x.borrow().left.is_none() {
-                        stack.push((x.borrow().left.clone().unwrap(), x_level+1));
+                        stack.push((x.borrow().left.clone().unwrap(), x_level + 1));
                     };
                     if !x.borrow().right.is_none() {
-                        stack.push((x.borrow().right.clone().unwrap(), x_level+1));
+                        stack.push((x.borrow().right.clone().unwrap(), x_level + 1));
                     }
                 }
-                None => {break;}
+                None => {
+                    break;
+                }
             }
         }
         return Some(d);
-    }
-    else {
+    } else {
         return None;
     }
 }
-
 
 fn print_d_sorted(d: HashMap<i32, i32>) {
     let mut keys: Vec<i32> = d.keys().cloned().collect();
@@ -109,16 +114,16 @@ fn print_d_sorted(d: HashMap<i32, i32>) {
 }
 
 fn solution(d: u32) {
-    // d-1 is a depth of the full btree 
+    // d-1 is a depth of the full btree
     // n is a number of nodes in the full btree = 2^d - 1
-    let n = 2i32.pow(d+1) - 1;
+    let n = 2i32.pow(d + 1) - 1;
     let root = create_tree_dfs(n);
     // print_tree(root.clone(), 0);
     let d = calc_tree(root.clone());
     print_d_sorted(d.unwrap());
 }
 
-fn main(){
+fn main() {
     let d = 2;
     solution(d);
 }
