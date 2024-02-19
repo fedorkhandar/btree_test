@@ -158,7 +158,7 @@ fn create_tree_dfs(n: i32) -> Option<Box<TreeNode>> {
 //     }
 // }
 
-fn main(){
+fn main() {
     let d = 2;
     // solution(d);
     // let root = Box::new(TreeNode::new(0));
