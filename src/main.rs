@@ -3,10 +3,11 @@ Create a binary tree with n nodes.
 Calc the sum of the values of the nodes at each level.
  */
 
-// TODO: Rc<RefCell> change to Box
-// TODO: cargo clippy --> research how to insert into CI
-// TODO: change stack-approach to recursive-approach
-// TODO: tree as linear vector
+// TODO: Rc<RefCell> -> <Box>
+// TODO: stack -> recursion
+// TODO: HashMap -> Vec
+// TODO: cargo clippy
+// TODO: tree build
 
 use std::cell::RefCell;
 use std::collections::HashMap;
